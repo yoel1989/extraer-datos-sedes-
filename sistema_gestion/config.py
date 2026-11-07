@@ -1,5 +1,7 @@
 import os
 from datetime import timedelta
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 # Configurar zona horaria para Colombia
 import os
