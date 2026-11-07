@@ -271,7 +271,6 @@ def calcular_ventas_y_comisiones(datos):
     total_ventas = 0
     total_valor = 0
     total_comision = 0
-    television_valor = 38000  # Valor fijo de television (sin comisión)
     
     for item in datos:
         tiempo = item['tiempo']
@@ -322,16 +321,12 @@ def calcular_ventas_y_comisiones(datos):
 # Calcular comisión por alcanzar metas
     comision_alcanza = calcular_comision_alcanza(total_valor)
     
-    # Sumar television al total (sin comisión)
-    total_con_television = total_valor + television_valor
-    total_a_enviar = total_con_television - total_comision - comision_alcanza
+    total_a_enviar = total_valor - total_comision - comision_alcanza
     
     return {
         'ventas_por_tipo': ventas_por_tipo,
         'total_ventas': total_ventas,
         'total_valor': total_valor,
-        'television_valor': television_valor,
-        'total_con_television': total_con_television,
         'total_comision': total_comision,
         'comision_alcanza': comision_alcanza,
         'total_a_enviar': total_a_enviar
@@ -401,8 +396,6 @@ def crear_tabla_resumen(ventas_calculadas, fecha_inicio, fecha_fin, nombre_sitio
         f"$ {ventas_calculadas['total_comision']:,}"
     ])
     
-    # Television
-    tabla_resumen.append(['', '', 'TELEVISION', f"$ {ventas_calculadas['television_valor']:,}"])
     
     # Comisión por alcanzar metas
     tabla_resumen.append(['', '', 'COMISION ALCANZADA', f"$ {ventas_calculadas['comision_alcanza']:,}"])
@@ -585,8 +578,6 @@ async def main():
                 print(f"   {tipo_pin}: 0 pines - - - Comisión: -")
         print("=" * 60)
         print(f"   TOTAL VENTAS: ${ventas['total_valor']:,}")
-        print(f"   TELEVISION: ${ventas['television_valor']:,}")
-        print(f"   TOTAL CON TV: ${ventas['total_con_television']:,}")
         print(f"   TOTAL COMISIONES: ${ventas['total_comision']:,}")
         print(f"   COMISIÓN ALCANZA: ${ventas['comision_alcanza']:,}")
         print(f"   TOTAL A ENVIAR: ${ventas['total_a_enviar']:,}")
