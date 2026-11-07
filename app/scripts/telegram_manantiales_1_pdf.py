@@ -125,7 +125,7 @@ async def obtener_todos_los_mensajes(fecha_inicio, fecha_fin):
         
     except Exception as e:
         print(f"Error: {e}")
-        return []
+        raise
     finally:
         await client.disconnect()
 
