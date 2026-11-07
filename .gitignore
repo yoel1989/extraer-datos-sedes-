@@ -1,0 +1,30 @@
+# --- Secretos y sesiones (NUNCA subir) ---
+.env
+.env.*
+!.env.example
+*.session
+cookies.txt
+
+# --- Datos y archivos generados ---
+*.db
+*.sqlite
+reports/
+static/reports/
+static/uploads/
+*.zip
+*.log
+
+# --- Dependencias y binarios externos ---
+nssm*
+.venv/
+venv/
+
+# --- Python ---
+__pycache__/
+*.pyc
+
+# --- Editor / sistema ---
+.vscode/
+Thumbs.db
+desktop.ini
+reporte_*.pdf

@@ -1,0 +1,27 @@
+@echo off
+echo =====================================================
+echo     SISTEMA DE GESTION INTEGRAL ESCOBARNET v2.0
+echo  Modulos: Dashboard, Extraccion, Contabilidad, TV, Sedes, Portales
+echo  Base de Datos: Supabase Cloud
+echo =====================================================
+echo.
+echo Configuracion:
+echo   Base de Datos: Supabase (<VALOR_EN_.env>)
+echo   Puerto: 5002
+echo   URL: http://localhost:5002
+echo.
+echo Credenciales de Acceso:
+echo   Usuario: admin
+echo   Contrasena: admin123
+echo.
+echo Verificando dependencias...
+pip install -r requirements.txt
+echo.
+echo Iniciando aplicacion en puerto 5002...
+echo Presiona Ctrl+C para detener
+echo =====================================================
+echo.
+
+python run_escobarnet.py
+
+pause
