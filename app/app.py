@@ -32,11 +32,9 @@ SITIOS = {
     'cachicamo': {'name': 'CACHICAMO', 'script': 'telegram_cachicamo_pdf.py'},
     'cano_lajas': {'name': 'CANO LAJAS', 'script': 'telegram_cano_lajas_pdf.py'},
     'cano_pescado': {'name': 'CANO PESCADO', 'script': 'telegram_cano_pescado_pdf.py'},
-    'cerritos': {'name': 'CERRITOS', 'script': 'telegram_cerritos_pdf.py'},
     'manantiales_1': {'name': 'MANANTIALES', 'script': 'telegram_manantiales_1_pdf.py'},
     'manantiales_2': {'name': 'MANANTIALES-2', 'script': 'telegram_manantiales_2_pdf.py'},
     'miravalle': {'name': 'MIRAVALLE', 'script': 'telegram_miravalle_pdf.py'},
-    'san_miguel': {'name': 'SAN MIGUEL', 'script': 'telegram_san_miguel_pdf.py'},
     'tortuga': {'name': 'LA TORTUGA', 'script': 'telegram_tortuga_pdf.py'},
     'tropezon': {'name': 'TROPEZON', 'script': 'telegram_tropezon_pdf.py'}
 }
@@ -144,11 +142,9 @@ class TelegramExtractor:
                 'cachicamo': 'telegram_cachicamo_pdf',
                 'cano_lajas': 'telegram_cano_lajas_pdf',
                 'cano_pescado': 'telegram_cano_pescado_pdf',
-                'cerritos': 'telegram_cerritos_pdf',
                 'manantiales_1': 'telegram_manantiales_1_pdf',
                 'manantiales_2': 'telegram_manantiales_2_pdf',
                 'miravalle': 'telegram_miravalle_pdf',
-                'san_miguel': 'telegram_san_miguel_pdf',
                 'tortuga': 'telegram_tortuga_pdf',
                 'tropezon': 'telegram_tropezon_pdf'
             }

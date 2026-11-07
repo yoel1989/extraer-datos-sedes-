@@ -41,11 +41,9 @@ SEDES = [
     ('cachicamo', 'CACHICAMO', 'telegram_cachicamo_pdf'),
     ('cano_lajas', 'CANO LAJAS', 'telegram_cano_lajas_pdf'),
     ('cano_pescado', 'CANO PESCADO', 'telegram_cano_pescado_pdf'),
-    ('cerritos', 'CERRITOS', 'telegram_cerritos_pdf'),
     ('manantiales_1', 'MANANTIALES', 'telegram_manantiales_1_pdf'),
     ('manantiales_2', 'MANANTIALES-2', 'telegram_manantiales_2_pdf'),
     ('miravalle', 'MIRAVALLE', 'telegram_miravalle_pdf'),
-    ('san_miguel', 'SAN MIGUEL', 'telegram_san_miguel_pdf'),
     ('tortuga', 'LA TORTUGA', 'telegram_tortuga_pdf'),
     ('tropezon', 'TROPEZON', 'telegram_tropezon_pdf'),
 ]

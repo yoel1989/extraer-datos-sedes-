@@ -18,11 +18,9 @@ Aplicación web profesional para extraer datos de múltiples sitios de Telegram 
 - CACHICAMO  
 - CANO LAJAS
 - CANO PESCADO
-- CERRITOS
 - MANANTIALES
 - MANANTIALES-2
 - MIRAVALLE
-- SAN MIGUEL
 - LA TORTUGA
 - TROPEZON
 
