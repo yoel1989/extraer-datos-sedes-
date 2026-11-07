@@ -15,7 +15,7 @@ import re
 API_ID = int(os.environ['TELEGRAM_API_ID'])
 API_HASH = os.environ['TELEGRAM_API_HASH']
 PHONE = os.environ['TELEGRAM_PHONE']
-GROUP_ID = -5295671053
+GROUP_ID = -5249269437  # "Notificaciones Miravalle"
 
 # PRECIOS Y COMISIONES DE LOS PINES
 PRECIOS_PINES = {
