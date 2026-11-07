@@ -100,6 +100,7 @@ def subir(url, key, clave, nombre, inicio, fin, ruta_pdf, ventas, total_mensajes
         'archivo_path': ruta_storage,
         'archivo_nombre': os.path.basename(ruta_pdf),
         'total_ventas': ventas['total_valor'],
+        'total_a_enviar': ventas['total_a_enviar'],
         'total_mensajes': total_mensajes,
     }
     r = requests.post(
