@@ -1,3 +1,4 @@
+from zoneinfo import ZoneInfo
 import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
@@ -67,7 +68,7 @@ async def obtener_todos_los_mensajes(fecha_inicio, fecha_fin):
             if not message.text:
                 continue
                 
-            message_date = message.date.astimezone().replace(tzinfo=None)
+            message_date = message.date.astimezone(ZoneInfo("America/Bogota")).replace(tzinfo=None)
             
             # Si la fecha es anterior al inicio, salir del loop
             if message_date.date() < inicio.date():
