@@ -257,6 +257,46 @@ def obtener_nombre_sitio(datos):
     else:
         return "SITIO DESCONOCIDO"
 
+# Regla del profe: si en el periodo hay PINES_PROFE_POR_MES o mas pines de mes,
+# esa cantidad se cobra como "Profesora" (30.000). Los demas pines de mes siguen a 45.000.
+PINES_PROFE_POR_MES = 2
+ETIQUETA_PIN = {"Profesora": "PROFE"}
+
+
+def tipo_por_tiempo(tiempo):
+    """Tipo de pin segun el tiempo convertido (sin considerar profesora)."""
+    if tiempo == "01:00:00" or tiempo.startswith("01:"):
+        return "1Hora"
+    if tiempo == "02:00:00" or tiempo.startswith("02:"):
+        return "2Horas"
+    if tiempo == "03:00:00" or tiempo.startswith("03:"):
+        return "3Horas"
+    if tiempo == "24:00:00" or (tiempo.startswith("24:") and int(tiempo.split(':')[0]) == 24):
+        return "1Dia"
+    if tiempo == "720:00:00" or (tiempo.startswith("720:") or int(tiempo.split(':')[0]) >= 24 * 30):
+        return "30Dias"
+    return "1Hora"
+
+
+def marcar_profe_por_mes(datos):
+    """Marca los primeros pines de mes que pasan a profe. No cambia es_profesora,
+    asi que llamarla varias veces da siempre el mismo resultado."""
+    pines_mes = [i for i in datos if not i.get('es_profesora') and tipo_por_tiempo(i['tiempo']) == "30Dias"]
+    if len(pines_mes) >= PINES_PROFE_POR_MES:
+        marcados = {id(i) for i in pines_mes[:PINES_PROFE_POR_MES]}
+    else:
+        marcados = set()
+    for i in datos:
+        i['profe_por_mes'] = id(i) in marcados
+
+
+def tipo_de_item(item):
+    """Tipo final de un registro: Profesora si lo es por mensaje o por la regla del mes."""
+    if item.get('es_profesora') or item.get('profe_por_mes'):
+        return "Profesora"
+    return tipo_por_tiempo(item['tiempo'])
+
+
 def calcular_ventas_y_comisiones(datos):
     """Calcula ventas, comisiones y totales"""
     ventas_por_tipo = {}
@@ -265,41 +305,12 @@ def calcular_ventas_y_comisiones(datos):
     total_comision = 0
     cobro_fijo_tv = 38000  # Cobro fijo de Television
     
+    marcar_profe_por_mes(datos)
     for item in datos:
-        tiempo = item['tiempo']
-        es_profesora = item.get('es_profesora', False)
-        
-        # Determinar el tipo de PIN basado en el tiempo convertido
-        if es_profesora:
-            tipo_pin = "Profesora"
-            precio = PRECIOS_PINES["Profesora"]
-            comision = COMISIONES_POR_PIN["Profesora"]
-        elif tiempo == "01:00:00" or tiempo.startswith("01:"):
-            tipo_pin = "1Hora"
-            precio = PRECIOS_PINES["1Hora"]
-            comision = COMISIONES_POR_PIN["1Hora"]
-        elif tiempo == "02:00:00" or tiempo.startswith("02:"):
-            tipo_pin = "2Horas" 
-            precio = PRECIOS_PINES["2Horas"]
-            comision = COMISIONES_POR_PIN["2Horas"]
-        elif tiempo == "03:00:00" or tiempo.startswith("03:"):
-            tipo_pin = "3Horas"
-            precio = PRECIOS_PINES["3Horas"]
-            comision = COMISIONES_POR_PIN["3Horas"]
-        elif tiempo == "24:00:00" or (tiempo.startswith("24:") and int(tiempo.split(':')[0]) == 24):
-            tipo_pin = "1Dia"
-            precio = PRECIOS_PINES["1Dia"]
-            comision = COMISIONES_POR_PIN["1Dia"]
-        elif tiempo == "720:00:00" or (tiempo.startswith("720:") or int(tiempo.split(':')[0]) >= 24 * 30):
-            tipo_pin = "30Dias"
-            precio = PRECIOS_PINES["30Dias"]
-            comision = COMISIONES_POR_PIN["30Dias"]
-        else:
-            # Para otros tiempos, usar 1 hora por defecto
-            tipo_pin = "1Hora"
-            precio = PRECIOS_PINES["1Hora"]
-            comision = COMISIONES_POR_PIN["1Hora"]
-        
+        tipo_pin = tipo_de_item(item)
+        precio = PRECIOS_PINES[tipo_pin]
+        comision = COMISIONES_POR_PIN[tipo_pin]
+
         # Actualizar contadores
         if tipo_pin in ventas_por_tipo:
             ventas_por_tipo[tipo_pin]['cantidad'] += 1
@@ -376,7 +387,7 @@ def crear_tabla_resumen(ventas_calculadas, fecha_inicio, fecha_fin, nombre_sitio
         if tipo_pin in ventas_calculadas['ventas_por_tipo']:
             datos = ventas_calculadas['ventas_por_tipo'][tipo_pin]
             tabla_resumen.append([
-                tipo_pin,
+                ETIQUETA_PIN.get(tipo_pin, tipo_pin),
                 str(datos['cantidad']),
                 f"$ {datos['valor_total']:,}",
                 f"$ {datos['comision_total']:,}"
@@ -473,30 +484,8 @@ def crear_detalle_registros(datos, fecha_inicio, fecha_fin, nombre_sitio):
     tabla_datos = [['CÓDIGO', 'UBICACIÓN', 'FECHA', 'HORA', 'TIEMPO ORIGINAL', 'TIEMPO CONVERTIDO', 'TIPO PIN', 'PRECIO']]
     
     for item in datos:
-        tiempo = item['tiempo']
-        es_profesora = item.get('es_profesora', False)
-        
-        if es_profesora:
-            tipo_pin = "Profesora"
-            precio = PRECIOS_PINES["Profesora"]
-        elif tiempo == "01:00:00" or tiempo.startswith("01:"):
-            tipo_pin = "1Hora"
-            precio = PRECIOS_PINES["1Hora"]
-        elif tiempo == "02:00:00" or tiempo.startswith("02:"):
-            tipo_pin = "2Horas"
-            precio = PRECIOS_PINES["2Horas"]
-        elif tiempo == "03:00:00" or tiempo.startswith("03:"):
-            tipo_pin = "3Horas"
-            precio = PRECIOS_PINES["3Horas"]
-        elif tiempo == "24:00:00" or (tiempo.startswith("24:") and int(tiempo.split(':')[0]) == 24):
-            tipo_pin = "1Dia"
-            precio = PRECIOS_PINES["1Dia"]
-        elif tiempo == "720:00:00" or (tiempo.startswith("720:") or int(tiempo.split(':')[0]) >= 24 * 30):
-            tipo_pin = "30Dias"
-            precio = PRECIOS_PINES["30Dias"]
-        else:
-            tipo_pin = "1Hora"
-            precio = PRECIOS_PINES["1Hora"]
+        tipo_pin = tipo_de_item(item)
+        precio = PRECIOS_PINES[tipo_pin]
         
         tabla_datos.append([
             item['codigo'],
