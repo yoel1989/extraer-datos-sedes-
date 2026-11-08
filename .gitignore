@@ -28,3 +28,6 @@ __pycache__/
 Thumbs.db
 desktop.ini
 reporte_*.pdf
+
+# Exportes del MikroTik (contienen codigos de PIN de clientes)
+mikrotik/
